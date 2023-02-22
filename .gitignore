@@ -1,0 +1,43 @@
+# Thumbnails created by windows
+Thumbs.db
+
+# Files created by Visual Studio
+*.aps
+*.cache
+*.ilk
+*.lib
+*.log
+*.ncb
+*.obj
+*.pch
+*.pdb
+*.sbr
+*.suo
+*.tlb
+*.tlh
+*.user
+*.vspscc
+*_i.c
+*_p.c
+obj/
+[Bb]in/
+[Dd]ebug*/
+[Ee]rror[Ll]ogs*
+[Rr]elease*/
+[Tt]est[Rr]esult*
+_ReSharper*/
+
+# Nuget
+**/Packages/*
+**/Output/*
+!repositories.config
+
+# Tool folders
+.idea
+.vs
+
+# Other
+*.bak
+*.tmp
+*.orig
+
