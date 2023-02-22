@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Twinfield_Webservices_Sample_C_sharp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Twinfield_Webservices_Sample_C_sharp_TwinfieldSession_Session" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://login.twinfield.com/webservices/session.asmx</Value>
+    </Setting>
+    <Setting Name="Twinfield_Webservices_Sample_C_sharp_TwinfieldProcessXml_ProcessXml" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://login.twinfield.com/webservices/processxml.asmx</Value>
+    </Setting>
+    <Setting Name="Twinfield_Webservices_Sample_C_sharp_TwinfieldFinder_Finder" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://login.twinfield.com/webservices/finder.asmx</Value>
+    </Setting>
+    <Setting Name="Twinfield_Webservices_Sample_C_sharp_TwinfieldClusterSession_Session" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://accounting.twinfield.com/webservices/session.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
