@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AE7D0120-0DF2-4564-A43D-99A547D113BD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TwinfieldApi</RootNamespace>
+    <AssemblyName>TwinfieldApi</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bookkeeping\BookkeepingService.cs" />
+    <Compile Include="Bookkeeping\ReadTransactionCommand.cs" />
+    <Compile Include="Bookkeeping\Transaction.cs" />
+    <Compile Include="Browse\Query\BrowseDefinition.cs" />
+    <Compile Include="Browse\Query\BrowseQuery.cs" />
+    <Compile Include="Browse\Data\BrowseResult.cs" />
+    <Compile Include="Browse\BrowseService.cs" />
+    <Compile Include="Browse\Query\ReadBrowseDefinitionCommand.cs" />
+    <Compile Include="Dimensions\Dimension.cs" />
+    <Compile Include="Dimensions\DimensionSummary.cs" />
+    <Compile Include="Dimensions\ReadDimensionCommand.cs" />
+    <Compile Include="Services\ClientInterfaces.cs" />
+    <Compile Include="Services\IClientFactory.cs" />
+    <Compile Include="Services\ServiceReferenceToInterfaceMapping.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="Organization\ListOfficesCommand.cs" />
+    <Compile Include="Organization\OfficeSummary.cs" />
+    <Compile Include="BankBooks\BankBook.cs" />
+    <Compile Include="Organization\OfficeSummaryList.cs" />
+    <Compile Include="Service References\TwinfieldBankBookService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TwinfieldFinderService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TwinfieldLoginSessionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TwinfieldProcessXmlService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TwinfieldSessionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="BankBooks\BankBookService.cs" />
+    <Compile Include="Dimensions\DimensionService.cs" />
+    <Compile Include="Organization\OrganizationService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FinderService.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Services\SessionService.cs" />
+    <Compile Include="Services\ProcessXmlService.cs" />
+    <Compile Include="Services\ClientFactory.cs" />
+    <Compile Include="Utilities\ZlibCompressor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <None Include="Service References\TwinfieldBankBookService\BankBookService.wsdl" />
+    <None Include="Service References\TwinfieldBankBookService\BankBookService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\BankBookService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\BankBookService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\BankBookService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\TwinfieldApi.TwinfieldBankBookService.ProcessResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\TwinfieldApi.TwinfieldBankBookService.QueryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldBankBookService\TwinfieldApi.TwinfieldBankBookService.QueryResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldFinderService\finder.wsdl" />
+    <None Include="Service References\TwinfieldFinderService\TwinfieldApi.TwinfieldFinderService.FinderData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldFinderService\TwinfieldApi.TwinfieldFinderService.MessageOfErrorCodes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldFinderService\TwinfieldApi.TwinfieldFinderService.SearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldLoginSessionService\session.wsdl" />
+    <None Include="Service References\TwinfieldLoginSessionService\TwinfieldApi.TwinfieldLoginSessionService.Header.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldLoginSessionService\TwinfieldApi.TwinfieldLoginSessionService.LogonAction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldLoginSessionService\TwinfieldApi.TwinfieldLoginSessionService.LogonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldLoginSessionService\TwinfieldApi.TwinfieldLoginSessionService.LogonResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldLoginSessionService\TwinfieldApi.TwinfieldLoginSessionService.OAuthLogonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldProcessXmlService\processxml.wsdl" />
+    <None Include="Service References\TwinfieldProcessXmlService\TwinfieldApi.TwinfieldProcessXmlService.ProcessXmlCompressedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldProcessXmlService\TwinfieldApi.TwinfieldProcessXmlService.ProcessXmlDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldProcessXmlService\TwinfieldApi.TwinfieldProcessXmlService.ProcessXmlStringResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\session.wsdl" />
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.AbandonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.ChangePasswordResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.ChangePasswordResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.GetRoleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.Header.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.KeepAliveResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.LogonAction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.LogonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.LogonResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.SelectCompanyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.SelectCompanyResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.SmsLogonResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.SMSLogonResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\TwinfieldSessionService\TwinfieldApi.TwinfieldSessionService.SmsSendCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\TwinfieldBankBookService\" />
+    <WCFMetadataStorage Include="Service References\TwinfieldFinderService\" />
+    <WCFMetadataStorage Include="Service References\TwinfieldLoginSessionService\" />
+    <WCFMetadataStorage Include="Service References\TwinfieldProcessXmlService\" />
+    <WCFMetadataStorage Include="Service References\TwinfieldSessionService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldLoginSessionService\session.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldLoginSessionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldLoginSessionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldLoginSessionService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldSessionService\session.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldSessionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldSessionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldSessionService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldProcessXmlService\processxml.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldProcessXmlService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldProcessXmlService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldProcessXmlService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldBankBookService\BankBookService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldBankBookService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldBankBookService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldBankBookService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldFinderService\finder.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldFinderService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldFinderService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\TwinfieldFinderService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

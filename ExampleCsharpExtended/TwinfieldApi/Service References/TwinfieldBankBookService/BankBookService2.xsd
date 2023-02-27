@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Twinfield.WebServices" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Twinfield.WebServices" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8180/webservices/BankBookService.svc?xsd=xsd0" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="Command">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Command" nillable="true" type="tns:Command" />
+  <xs:complexType name="Query">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Query" nillable="true" type="tns:Query" />
+  <xs:complexType name="QueryResult">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="QueryResult" nillable="true" type="tns:QueryResult" />
+  <xs:complexType name="SecurityFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" type="tns:SecurityFaultCode" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SecurityFault" nillable="true" type="tns:SecurityFault" />
+  <xs:simpleType name="SecurityFaultCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HeaderIsMissing">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="AccessDenied">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LogonInvalid">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">103</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LogonDeleted">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">104</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LogonDisabled">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">105</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="OrganisationInactive">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">106</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SmsSendFailed">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">107</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="InvalidCluster">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">108</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SelectCompanyFailed">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">109</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="InvalidLogonServer">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">110</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SameUserIsAlreadyLoggedIn">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">168</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LoggedOffByTwinfield">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationAmount xmlns="http://schemas.microsoft.com/2003/10/Serialization/">169</EnumerationAmount>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="SecurityFaultCode" nillable="true" type="tns:SecurityFaultCode" />
+  <xs:complexType name="ValidationFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ValidationFault" nillable="true" type="tns:ValidationFault" />
+</xs:schema>

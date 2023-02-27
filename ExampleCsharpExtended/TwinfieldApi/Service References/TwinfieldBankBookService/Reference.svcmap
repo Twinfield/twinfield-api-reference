@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bde5e580-e15d-41e9-868e-9c4bdc74e418" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8180/webservices/BankBookService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BankBookService.xsd" MetadataType="Schema" ID="1c3d35a5-9553-416d-9251-43951aa8328d" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BankBookService1.xsd" MetadataType="Schema" ID="b26c4bcc-ec5a-4073-bc40-fa154265397a" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?xsd=xsd1" />
+    <MetadataFile FileName="BankBookService2.xsd" MetadataType="Schema" ID="c432693f-4c34-4f6b-92ae-42a234c4c9dc" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BankBookService3.xsd" MetadataType="Schema" ID="d0664025-a7d4-45c1-981e-29b1ff9427e7" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?xsd=xsd3" />
+    <MetadataFile FileName="BankBookService.wsdl" MetadataType="Wsdl" ID="ee77198d-43c7-4fff-af19-7bd8bf1b93af" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?wsdl" />
+    <MetadataFile FileName="BankBookService.disco" MetadataType="Disco" ID="ae1f183a-59f7-4212-8c52-c20625a0e62c" SourceId="1" SourceUrl="http://localhost:8180/webservices/BankBookService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
