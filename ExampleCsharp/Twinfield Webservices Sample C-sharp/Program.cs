@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Web.Services.Protocols;
+using System.Xml;
 using Twinfield_Webservices_Sample_C_sharp.TwinfieldClusterSession;
+using Twinfield_Webservices_Sample_C_sharp.TwinfieldFinder;
+using Twinfield_Webservices_Sample_C_sharp.TwinfieldProcessXml;
 using Header = Twinfield_Webservices_Sample_C_sharp.TwinfieldClusterSession.Header;
 using LogonAction = Twinfield_Webservices_Sample_C_sharp.TwinfieldSession.LogonAction;
 using LogonResult = Twinfield_Webservices_Sample_C_sharp.TwinfieldSession.LogonResult;
@@ -40,6 +44,9 @@ namespace Twinfield_Webservices_Sample_C_sharp
 			DisplayCustomers(cluster, session);
 
 			AbandonTwinfieldSession(cluster, clusterSession);
+
+			Console.WriteLine("Press any key to exit");
+			Console.ReadKey();
 		}
 
 		static void ProcessLogonResult(LogonResult logonResult, string cluster, TwinfieldSession.Session session,
@@ -130,108 +137,140 @@ namespace Twinfield_Webservices_Sample_C_sharp
 					break;
 				case LogonResult.Blocked:
 					Console.WriteLine("Log-on is blocked.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 				case LogonResult.Untrusted:
 					Console.WriteLine("Log-on is untrusted.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 				case LogonResult.Invalid:
 					Console.WriteLine("Log-on is invalid.");
-					Console.WriteLine("Press any key to exit...");
-					Console.ReadKey();
-					Environment.Exit(0);
+					ExitProgram();
 					break;
 				case LogonResult.Deleted:
 					Console.WriteLine("Log-on is deleted.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 				case LogonResult.Disabled:
 					Console.WriteLine("Log-on is disabled.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 				case LogonResult.OrganisationInactive:
 					Console.WriteLine("Organization is inactive.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 				default:
 					Console.WriteLine("Unknown log-on result.");
-					Console.ReadKey();
+					ExitProgram();
 					break;
 			}
 		}
 
+		static void ExitProgram()
+		{
+			Console.WriteLine("Press any key to exit...");
+			Console.ReadKey();
+			Environment.Exit(0);
+		}
+
 		static void DisplayCompanies(string cluster, TwinfieldSession.Session session)
 		{
-			if (cluster == string.Empty) return;
+			if (string.IsNullOrEmpty(cluster)) return;
 
 			// Create instance of process xml web service.
-			var processXml = new TwinfieldProcessXml.ProcessXml
+			try
 			{
-				// Create and assign the header.
-				HeaderValue = new TwinfieldProcessXml.Header
+				var processXml = new ProcessXml
 				{
-					SessionID = session.HeaderValue.SessionID
-				}
-			};
+					// Create and assign the header.
+					HeaderValue = new TwinfieldProcessXml.Header
+					{
+						SessionID = session.HeaderValue.SessionID
+					}
+				};
 
-			// fill the request with xml as string
-			const string xmlRequest = "<list><type>offices</type></list>";
+				// fill the request with xml as string
+				const string xmlRequest = "<list><type>offices</type></list";
 
-			// Set url
-			processXml.Url = cluster + "/webservices/processxml.asmx";
+				// Set url
+				processXml.Url = cluster + "/webservices/processxml.asmx";
 
-			Console.WriteLine("ProcessXml: Displaying a list of offices... ");
-			// ProcessXml as String
-			var xmlResult = processXml.ProcessXmlString(xmlRequest);
-			Console.WriteLine(xmlResult);
-			Console.WriteLine("Press any key to continue...");
-			Console.ReadKey();
+				Console.WriteLine("ProcessXml: Displaying a list of offices... ");
+				// ProcessXml as String
+				var xmlResult = processXml.ProcessXmlString(xmlRequest);
+				Console.WriteLine(xmlResult);
+				Console.WriteLine("Press any key to continue...");
+				Console.ReadKey();
+			}
+			catch (WebException ex)
+			{
+				HandleException(ex);
+			}
+			catch (SoapException ex)
+			{
+				HandleSoapException(ex);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error occurred while processing the xml request.");
+				Console.WriteLine(ex.Message);
+			}
+
 		}
 
 		static void SelectCompany(string cluster, Session clusterSession, TwinfieldSession.Session session)
 		{
-			if (cluster == string.Empty) return;
+			if (string.IsNullOrEmpty(cluster)) return;
 
-			clusterSession.Url = cluster + "/webservices/session.asmx";
-
-			// Set sessionID header
-			clusterSession.HeaderValue = new Header
+			try
 			{
-				SessionID = session.HeaderValue.SessionID
-			};
+				clusterSession.Url = cluster + "/webservices/session.asmx";
 
-			Console.WriteLine("Enter company:");
-			var company = Console.ReadLine().ToUpper();
-			clusterSession.SelectCompany(company);
+				// Set sessionID header
+				clusterSession.HeaderValue = new Header
+				{
+					SessionID = session.HeaderValue.SessionID
+				};
+
+				Console.WriteLine("Enter company:");
+				var company = Console.ReadLine().ToUpper();
+				clusterSession.SelectCompany(company);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error occurred while processing the request.");
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		static void DisplayCustomers(string cluster, TwinfieldSession.Session session)
 		{
-			if (cluster == string.Empty) return;
+			if (string.IsNullOrEmpty(cluster)) return;
 
-			// Create instance of finder webservice
-			var finder = new TwinfieldFinder.Finder();
-			finder.Url = cluster + "/webservices/finder.asmx";
-
-			// Set sessionID header
-			finder.HeaderValue = new TwinfieldFinder.Header
+			try
 			{
-				SessionID = session.HeaderValue.SessionID
-			};
+				// Create instance of finder webservice
+				var finder = new Finder();
+				finder.Url = cluster + "/webservices/finder.asmx";
 
-			// Build options array
-			var options = new string[2][];
-			options[0] = new[] { "dimtype", "DEB" };
-			options[1] = new[] { "section", "financials" };
+				// Set sessionID header
+				finder.HeaderValue = new TwinfieldFinder.Header
+				{
+					SessionID = session.HeaderValue.SessionID
+				};
 
-			// Search dimensions of type "DEB" with bank account which starts with "1*", return the first 10 matches.
-			Console.WriteLine("Displaying first 10 dimensions of type 'DEB' with bank account which starts with '1 * '");
-			var messages = finder.Search("DIM", "1*", 3, 1, 10, options, out var results);
-			if (messages.Any())
-				foreach (var message in messages)
-					Console.WriteLine(message.Text);
-			else
+				// Build options array
+				var options = new string[2][];
+				options[0] = new[] { "dimtype", "DEB" };
+				options[1] = new[] { "section", "financials" };
+
+				// Search dimensions of type "DEB" with bank account which starts with "1*", return the first 10 matches.
+				Console.WriteLine("Displaying first 10 dimensions of type 'DEB' with bank account which starts with '1 * '");
+				var messages = finder.Search("DIM", "1*", 3, 1, 10, options, out var results);
+				if (messages.Any())
+					foreach (var message in messages)
+						Console.WriteLine(message.Text);
+				else
 				// Print results
 				if (results.Items != null)
 					for (var i = 0; i < results.Items.Length; ++i)
@@ -240,20 +279,81 @@ namespace Twinfield_Webservices_Sample_C_sharp
 				else
 					Console.WriteLine("Nothing found.");
 
-			Console.WriteLine("Press any key to continue...");
-			Console.ReadKey();
+				Console.WriteLine("Press any key to continue...");
+				Console.ReadKey();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error occurred while processing the request.");
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		static void AbandonTwinfieldSession(string cluster, Session clusterSession)
 		{
-			if (cluster == string.Empty) return;
+			if (string.IsNullOrEmpty(cluster)) return;
 
-			// Abandon Twinfield session
-			clusterSession.Abandon();
+			try
+			{
+				// Abandon Twinfield session
+				clusterSession.Abandon();
 
-			Console.WriteLine("Twinfield session terminated.");
-			Console.WriteLine("Press any key to continue...");
-			Console.ReadKey();
+				Console.WriteLine("Twinfield session terminated.");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error occurred while processing the request.");
+				Console.WriteLine(ex.Message);
+			}
+		}
+
+		static void HandleSoapException(SoapException soapException)
+		{
+			if (soapException == null) return;
+
+			Console.WriteLine("Error occurred while processing the xml request.");
+			if (soapException.Detail is XmlElement detail)
+			{
+				var el = (XmlElement)detail.SelectSingleNode("message");
+				if (el != null) Console.WriteLine($"Message : {el.InnerText}");
+				el = (XmlElement)detail.SelectSingleNode("code");
+				if (el != null) Console.WriteLine($"Code : {el.InnerText}");
+				el = (XmlElement)detail.SelectSingleNode("source");
+				if (el != null) Console.WriteLine($"Source : {el.InnerText}");
+				Console.WriteLine(detail.OuterXml);
+				return;
+
+			}
+
+			Console.WriteLine($"Message : {soapException.Message}");
+			Console.WriteLine($"Code : {soapException.Code}");
+			Console.WriteLine($"SubCode : {(soapException.SubCode == null ? string.Empty : soapException.SubCode.ToString())}");
+			Console.WriteLine($"Actor : {soapException.Actor}");
+			Console.WriteLine($"Node : {soapException.Node}");
+		}
+
+		static void HandleException(WebException webException)
+		{
+			if (webException == null) return;
+
+			Console.WriteLine("Error occurred while processing the xml request.");
+			var statusCode = ((HttpWebResponse)webException.Response).StatusCode;
+			Console.WriteLine($"Http status code : {statusCode}");
+
+			if (statusCode != HttpStatusCode.Forbidden &&
+				 statusCode != HttpStatusCode.Unauthorized) return;
+			var statusDescription = ((HttpWebResponse)webException.Response).StatusDescription;
+
+			if (string.IsNullOrEmpty(statusDescription)) return;
+			if (statusDescription.Contains(":"))
+			{
+				var descriptionDetails = statusDescription.Split(':');
+				if (descriptionDetails.Length <= 1) return;
+				Console.WriteLine($"Error code : {descriptionDetails[0].Trim()}");
+				Console.WriteLine($"Error description : {descriptionDetails[1].Trim()}");
+			}
+			else
+				Console.WriteLine($"Error description : {statusDescription}");
 		}
 	}
 }
