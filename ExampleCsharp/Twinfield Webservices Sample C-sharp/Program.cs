@@ -204,7 +204,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 			}
 			catch (WebException ex)
 			{
-				HandleException(ex);
+				HandleWebException(ex);
 			}
 			catch (SoapException ex)
 			{
@@ -332,7 +332,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 			Console.WriteLine($"Node : {soapException.Node}");
 		}
 
-		static void HandleException(WebException webException)
+		static void HandleWebException(WebException webException)
 		{
 			if (webException == null) return;
 
