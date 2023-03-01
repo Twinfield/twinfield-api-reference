@@ -55,119 +55,91 @@ namespace Twinfield_Webservices_Sample_C_sharp
 			switch (logonResult)
 			{
 				case LogonResult.Ok:
-					// Check the cluster URL.
-					if (!string.IsNullOrEmpty(cluster))
+					if (!string.IsNullOrWhiteSpace(cluster))
 						session.Url = cluster + "/webservices/session.asmx";
-
-					var actionError = string.Empty;
-					while (actionError == string.Empty && nextAction != LogonAction.None)
-					{
-						switch (nextAction)
-						{
-							case LogonAction.SMSLogon:
-								// Send the code to the session user.
-								var timeout = clusterSession.SmsSendCode();
-								if (timeout > 0)
-								{
-									// Request the sms code.
-									Console.WriteLine(
-										"An SMS has been sent, please fill in the code within {0} seconds:",
-										timeout);
-									var code = Console.ReadLine();
-									// Logon with the received sms code.
-									var smsLogonResult =
-										clusterSession.SmsLogon(code, out _);
-									switch (smsLogonResult)
-									{
-										case SMSLogonResult.Invalid:
-											actionError = "SMS log-on invalid.";
-											break;
-										case SMSLogonResult.TimeOut:
-											actionError = "SMS code timed out.";
-											break;
-										case SMSLogonResult.Disabled:
-											actionError = "Log-on is disabled.";
-											break;
-									}
-								}
-								else
-									actionError = "SMS failed to send";
-
-								break;
-							case LogonAction.ChangePassword:
-								// Request the passwords.
-								Console.WriteLine("Current password:");
-								var currentPassword = Console.ReadLine();
-								Console.WriteLine("New password:");
-								var newPassword = Console.ReadLine();
-								// Change the password.
-
-								var changePasswordResult =
-									clusterSession.ChangePassword(currentPassword, newPassword, out _);
-								switch (changePasswordResult)
-								{
-									case ChangePasswordResult.Invalid:
-										actionError = "Current password is invalid.";
-										break;
-									case ChangePasswordResult.NotDifferent:
-										actionError = "Passwords are not different.";
-										break;
-									case ChangePasswordResult.NotSecure:
-										actionError = "New password is not secure.";
-										break;
-									case ChangePasswordResult.Disabled:
-										actionError = "Log-on is disabled.";
-										break;
-								}
-
-								break;
-						}
-					}
-
-					if (actionError != string.Empty)
-					{
-						Console.WriteLine(actionError);
-						Console.WriteLine("Press any key to exit...");
-						Console.ReadKey();
-						Environment.Exit(0);
-					}
-					else
-						Console.WriteLine("Log-on successful.");
-
+					ExecuteLogonAction(nextAction, clusterSession);
 					break;
 				case LogonResult.Blocked:
-					Console.WriteLine("Log-on is blocked.");
-					ExitProgram();
+					ExitProgram("Log-on is blocked.");
 					break;
 				case LogonResult.Untrusted:
-					Console.WriteLine("Log-on is untrusted.");
-					ExitProgram();
+					ExitProgram("Log-on is untrusted.");
 					break;
 				case LogonResult.Invalid:
-					Console.WriteLine("Log-on is invalid.");
-					ExitProgram();
+					ExitProgram("Log-on is invalid.");
 					break;
 				case LogonResult.Deleted:
-					Console.WriteLine("Log-on is deleted.");
-					ExitProgram();
+					ExitProgram("Log-on is deleted.");
 					break;
 				case LogonResult.Disabled:
-					Console.WriteLine("Log-on is disabled.");
-					ExitProgram();
+					ExitProgram("Log-on is disabled.");
 					break;
 				case LogonResult.OrganisationInactive:
-					Console.WriteLine("Organization is inactive.");
-					ExitProgram();
+					ExitProgram("Organization is inactive.");
 					break;
 				default:
-					Console.WriteLine("Unknown log-on result.");
-					ExitProgram();
+					ExitProgram("Unknown log-on result.");
 					break;
 			}
 		}
 
-		static void ExitProgram()
+		static void ExecuteLogonAction(LogonAction nextAction, Session clusterSession)
 		{
+			var actionError = string.Empty;
+			while (actionError == string.Empty && nextAction != LogonAction.None)
+			{
+				if (nextAction == LogonAction.SMSLogon)
+				{
+					var timeout = clusterSession.SmsSendCode();
+					if (timeout > 0)
+					{
+						Console.WriteLine(
+							"An SMS has been sent, please fill in the code within {0} seconds:",
+							timeout);
+						var code = Console.ReadLine();
+						var smsLogonResult =
+							clusterSession.SmsLogon(code, out _);
+						if (smsLogonResult == SMSLogonResult.Invalid)
+							actionError = "SMS log-on invalid.";
+						else if (smsLogonResult == SMSLogonResult.TimeOut)
+							actionError = "SMS code timed out.";
+						else if (smsLogonResult == SMSLogonResult.Disabled)
+							actionError = "Log-on is disabled.";
+					}
+					else
+						actionError = "SMS failed to send";
+				}
+				else if (nextAction == LogonAction.ChangePassword)
+				{
+					Console.WriteLine("Current password:");
+					var currentPassword = Console.ReadLine();
+					Console.WriteLine("New password:");
+					var newPassword = Console.ReadLine();
+
+					var changePasswordResult =
+						clusterSession.ChangePassword(currentPassword, newPassword, out _);
+					if (changePasswordResult == ChangePasswordResult.Invalid)
+						actionError = "Current password is invalid.";
+					else if (changePasswordResult == ChangePasswordResult.NotDifferent)
+						actionError = "Passwords are not different.";
+					else if (changePasswordResult == ChangePasswordResult.NotSecure)
+						actionError = "New password is not secure.";
+					else if (changePasswordResult == ChangePasswordResult.Disabled)
+						actionError = "Log-on is disabled.";
+				}
+			}
+
+			if (actionError != string.Empty)
+				ExitProgram(actionError);
+			else
+				Console.WriteLine("Log-on successful.");
+		}
+
+		static void ExitProgram(string message = null)
+		{
+			if (!string.IsNullOrWhiteSpace(message))
+				Console.WriteLine(message);
+
 			Console.WriteLine("Press any key to exit...");
 			Console.ReadKey();
 			Environment.Exit(0);
@@ -175,7 +147,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 		static void DisplayCompanies(string cluster, TwinfieldSession.Session session)
 		{
-			if (string.IsNullOrEmpty(cluster)) return;
+			if (string.IsNullOrWhiteSpace(cluster)) return;
 
 			// Create instance of process xml web service.
 			try
@@ -190,7 +162,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 				};
 
 				// fill the request with xml as string
-				const string xmlRequest = "<list><type>offices</type></list";
+				const string xmlRequest = "<list><type>offices</type></list>";
 
 				// Set url
 				processXml.Url = cluster + "/webservices/processxml.asmx";
@@ -220,7 +192,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 		static void SelectCompany(string cluster, Session clusterSession, TwinfieldSession.Session session)
 		{
-			if (string.IsNullOrEmpty(cluster)) return;
+			if (string.IsNullOrWhiteSpace(cluster)) return;
 
 			try
 			{
@@ -245,7 +217,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 		static void DisplayCustomers(string cluster, TwinfieldSession.Session session)
 		{
-			if (string.IsNullOrEmpty(cluster)) return;
+			if (string.IsNullOrWhiteSpace(cluster)) return;
 
 			try
 			{
@@ -291,7 +263,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 		static void AbandonTwinfieldSession(string cluster, Session clusterSession)
 		{
-			if (string.IsNullOrEmpty(cluster)) return;
+			if (string.IsNullOrWhiteSpace(cluster)) return;
 
 			try
 			{
@@ -344,7 +316,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 				 statusCode != HttpStatusCode.Unauthorized) return;
 			var statusDescription = ((HttpWebResponse)webException.Response).StatusDescription;
 
-			if (string.IsNullOrEmpty(statusDescription)) return;
+			if (string.IsNullOrWhiteSpace(statusDescription)) return;
 			if (statusDescription.Contains(":"))
 			{
 				var descriptionDetails = statusDescription.Split(':');
