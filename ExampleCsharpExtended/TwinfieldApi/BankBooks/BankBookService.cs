@@ -1,27 +1,27 @@
 ﻿using TwinfieldApi.Services;
 using TwinfieldApi.TwinfieldBankBookService;
 
-namespace TwinfieldApi.BankBooks
+namespace TwinfieldApi.Bankbooks
 {
-	public class BankBookService
+	public class BankbookService
 	{
 		readonly Session session;
 		readonly IClientFactory clientFactory;
 
-		public BankBookService(Session session)
+		public BankbookService(Session session)
 			: this(session, new ClientFactory())
 		{}
 
-		public BankBookService(Session session, IClientFactory clientFactory)
+		public BankbookService(Session session, IClientFactory clientFactory)
 		{
 			this.session = session;
 			this.clientFactory = clientFactory;
 		}
 
-		public BankBook FindBankBook(string code)
+		public Bankbook FindBankBook(string code)
 		{
 			var queryResult = Query(new GetBankBook { Code = code });
-			return BankBook.FromQueryResult(code, queryResult);
+			return Bankbook.FromQueryResult(code, queryResult);
 		}
 
 		QueryResult Query(GetBankBook query)

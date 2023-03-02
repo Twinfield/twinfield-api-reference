@@ -70,7 +70,7 @@
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Organization\ListOfficesCommand.cs" />
     <Compile Include="Organization\OfficeSummary.cs" />
-    <Compile Include="BankBooks\BankBook.cs" />
+    <Compile Include="Bankbooks\Bankbook.cs" />
     <Compile Include="Organization\OfficeSummaryList.cs" />
     <Compile Include="Service References\TwinfieldBankBookService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -97,7 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="BankBooks\BankBookService.cs" />
+    <Compile Include="Bankbooks\BankbookService.cs" />
     <Compile Include="Dimensions\DimensionService.cs" />
     <Compile Include="Organization\OrganizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

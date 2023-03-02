@@ -1,16 +1,16 @@
 ﻿using System;
 using TwinfieldApi;
-using TwinfieldApi.BankBooks;
+using TwinfieldApi.Bankbooks;
 
 namespace Demo
 {
 	class BankBookDemo
 	{
-		readonly BankBookService bankBookService;
+		readonly BankbookService bankBookService;
 
 		public BankBookDemo(Session session)
 		{
-			bankBookService = new BankBookService(session);
+			bankBookService = new BankbookService(session);
 		}
 
 		public void Run()
