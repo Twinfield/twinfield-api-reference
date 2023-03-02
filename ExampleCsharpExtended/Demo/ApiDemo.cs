@@ -15,7 +15,7 @@ namespace Demo
 			if (!Login(loginServerUrl, user, password, organization))
 				return;
 
-			if (!SwitchToOffice(office))
+			if (!SwitchToCompany(office))
 				return;
 
 			(new OrganizationDemo(session)).Run();
@@ -43,16 +43,16 @@ namespace Demo
 			return true;
 		}
 
-		bool SwitchToOffice(string office)
+		bool SwitchToCompany(string company)
 		{
 			var sessionService = new SessionService(clientFactory);
-			if (!sessionService.SelectOffice(session, office))
+			if (!sessionService.SelectOffice(session, company))
 			{
-				Console.WriteLine("Office {0} does not exist or you don't have sufficient rights to access it.", office);
+				Console.WriteLine("Office {0} does not exist or you don't have sufficient rights to access it.", company);
 				return false;
 			}
 
-			Console.WriteLine("Switched to office {0}.", office);
+			Console.WriteLine("Switched to company {0}.", company);
 			Console.WriteLine();
 			return true;
 		}
