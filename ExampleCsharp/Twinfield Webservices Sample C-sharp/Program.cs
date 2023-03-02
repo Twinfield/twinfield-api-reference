@@ -17,11 +17,9 @@ namespace Twinfield_Webservices_Sample_C_sharp
 	{
 		static void Main(string[] args)
 		{
-			// Create the session.
 			var session = new TwinfieldSession.Session();
 			var clusterSession = new Session();
 
-			// Request the user, password and organization.
 			Console.WriteLine("Enter user name:");
 			var user = Console.ReadLine().ToUpper();
 			Console.WriteLine("Enter password:");
@@ -31,7 +29,6 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 			ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 
-			// Log on to the session.
 			var logonResult =
 				session.Logon(user, password, organization, out var nextAction, out var cluster);
 
@@ -149,26 +146,21 @@ namespace Twinfield_Webservices_Sample_C_sharp
 		{
 			if (string.IsNullOrWhiteSpace(cluster)) return;
 
-			// Create instance of process xml web service.
 			try
 			{
 				var processXml = new ProcessXml
 				{
-					// Create and assign the header.
 					HeaderValue = new TwinfieldProcessXml.Header
 					{
 						SessionID = session.HeaderValue.SessionID
 					}
 				};
 
-				// fill the request with xml as string
 				const string xmlRequest = "<list><type>offices</type></list>";
 
-				// Set url
 				processXml.Url = cluster + "/webservices/processxml.asmx";
 
 				Console.WriteLine("ProcessXml: Displaying a list of offices... ");
-				// ProcessXml as String
 				var xmlResult = processXml.ProcessXmlString(xmlRequest);
 				Console.WriteLine(xmlResult);
 				Console.WriteLine("Press any key to continue...");
@@ -187,7 +179,6 @@ namespace Twinfield_Webservices_Sample_C_sharp
 				Console.WriteLine("Error occurred while processing the xml request.");
 				Console.WriteLine(ex.Message);
 			}
-
 		}
 
 		static void SelectCompany(string cluster, Session clusterSession, TwinfieldSession.Session session)
@@ -198,7 +189,6 @@ namespace Twinfield_Webservices_Sample_C_sharp
 			{
 				clusterSession.Url = cluster + "/webservices/session.asmx";
 
-				// Set sessionID header
 				clusterSession.HeaderValue = new Header
 				{
 					SessionID = session.HeaderValue.SessionID
@@ -221,35 +211,32 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 			try
 			{
-				// Create instance of finder webservice
 				var finder = new Finder();
 				finder.Url = cluster + "/webservices/finder.asmx";
 
-				// Set sessionID header
 				finder.HeaderValue = new TwinfieldFinder.Header
 				{
 					SessionID = session.HeaderValue.SessionID
 				};
 
-				// Build options array
 				var options = new string[2][];
 				options[0] = new[] { "dimtype", "DEB" };
 				options[1] = new[] { "section", "financials" };
 
-				// Search dimensions of type "DEB" with bank account which starts with "1*", return the first 10 matches.
 				Console.WriteLine("Displaying first 10 dimensions of type 'DEB' with bank account which starts with '1 * '");
 				var messages = finder.Search("DIM", "1*", 3, 1, 10, options, out var results);
 				if (messages.Any())
 					foreach (var message in messages)
 						Console.WriteLine(message.Text);
 				else
-				// Print results
-				if (results.Items != null)
-					for (var i = 0; i < results.Items.Length; ++i)
-						Console.WriteLine("{0}: Customer {1} ({2})", i, results.Items[i][0],
-							results.Items[i][1]);
-				else
-					Console.WriteLine("Nothing found.");
+				{
+					if (results.Items != null)
+						for (var i = 0; i < results.Items.Length; ++i)
+							Console.WriteLine("{0}: Customer {1} ({2})", i, results.Items[i][0],
+								results.Items[i][1]);
+					else
+						Console.WriteLine("Nothing found.");
+				}
 
 				Console.WriteLine("Press any key to continue...");
 				Console.ReadKey();
@@ -267,9 +254,7 @@ namespace Twinfield_Webservices_Sample_C_sharp
 
 			try
 			{
-				// Abandon Twinfield session
 				clusterSession.Abandon();
-
 				Console.WriteLine("Twinfield session terminated.");
 			}
 			catch (Exception ex)
