@@ -11,7 +11,7 @@ namespace TwinfieldApi.Services
 	{
 		const string SessionServicePath = "/webservices/session.asmx";
 		const string FinderServicePath = "/webservices/finder.asmx";
-		const string BankBookServicePath = "/webservices/BankBookService.svc";
+		const string BankbookServicePath = "/webservices/BankBookService.svc";
 		const string ProcessXmlServicePath = "/webservices/processxml.asmx";
 
 		public ILoginSessionSoapClient CreateLoginSessionClient(string baseUrl)
@@ -28,7 +28,7 @@ namespace TwinfieldApi.Services
 
 		public IBankBookServiceClient CreateBankBookClient(string baseUrl)
 		{
-			var endpointUrl = baseUrl + BankBookServicePath;
+			var endpointUrl = baseUrl + BankbookServicePath;
 			return new BankBookServiceClient(GetBinding(endpointUrl), new EndpointAddress(endpointUrl));
 		}
 
